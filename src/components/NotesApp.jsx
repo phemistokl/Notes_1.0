@@ -1,5 +1,6 @@
 import React from 'react';
 
+import NoteSearch from './NoteSearch.jsx';
 import NoteEditor from './NoteEditor.jsx';
 import NotesGrid from './NotesGrid.jsx';
 
@@ -50,6 +51,7 @@ const NotesApp = React.createClass({
         return (
             <div className="notes-app">
             <h2 className="app-header">NotesApp</h2>
+            <NoteSearch onSearch={this.handleNoteSearch} />
             <NoteEditor onNoteAdd={this.handleNoteAdd} />
             <NotesGrid notes={this.state.notes} onNoteDelete={this.handleNoteDelete} />
             </div>

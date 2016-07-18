@@ -176,6 +176,31 @@
 	// shim for using process in browser
 
 	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	(function () {
+	  try {
+	    cachedSetTimeout = setTimeout;
+	  } catch (e) {
+	    cachedSetTimeout = function () {
+	      throw new Error('setTimeout is not defined');
+	    }
+	  }
+	  try {
+	    cachedClearTimeout = clearTimeout;
+	  } catch (e) {
+	    cachedClearTimeout = function () {
+	      throw new Error('clearTimeout is not defined');
+	    }
+	  }
+	} ())
 	var queue = [];
 	var draining = false;
 	var currentQueue;
@@ -200,7 +225,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = setTimeout(cleanUpNextTick);
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -217,7 +242,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    clearTimeout(timeout);
+	    cachedClearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -229,7 +254,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
+	        cachedSetTimeout(drainQueue, 0);
 	    }
 	};
 
@@ -19686,15 +19711,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _NoteEditorJsx = __webpack_require__(160);
+	var _NoteSearchJsx = __webpack_require__(160);
+
+	var _NoteSearchJsx2 = _interopRequireDefault(_NoteSearchJsx);
+
+	var _NoteEditorJsx = __webpack_require__(161);
 
 	var _NoteEditorJsx2 = _interopRequireDefault(_NoteEditorJsx);
 
-	var _NotesGridJsx = __webpack_require__(168);
+	var _NotesGridJsx = __webpack_require__(170);
 
 	var _NotesGridJsx2 = _interopRequireDefault(_NotesGridJsx);
 
-	__webpack_require__(174);
+	__webpack_require__(176);
 
 	var NotesApp = _react2['default'].createClass({
 	    displayName: 'NotesApp',
@@ -19748,6 +19777,7 @@
 	                { className: 'app-header' },
 	                'NotesApp'
 	            ),
+	            _react2['default'].createElement(_NoteSearchJsx2['default'], { onSearch: this.handleNoteSearch }),
 	            _react2['default'].createElement(_NoteEditorJsx2['default'], { onNoteAdd: this.handleNoteAdd }),
 	            _react2['default'].createElement(_NotesGridJsx2['default'], { notes: this.state.notes, onNoteDelete: this.handleNoteDelete })
 	        );
@@ -19769,6 +19799,39 @@
 	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	__webpack_require__(178);
+
+	var NoteSearch = _react2['default'].createClass({
+	  displayName: 'NoteSearch',
+
+	  render: function render() {
+	    return _react2['default'].createElement(
+	      'div',
+	      { className: 'searchBox' },
+	      _react2['default'].createElement('input', { type: 'text', className: 'search-field', onChange: this.props.onSearch })
+	    );
+	  }
+	});
+
+	exports['default'] = NoteSearch;
+	module.exports = exports['default'];
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
 	    value: true
 	});
 
@@ -19778,11 +19841,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _NoteColorJsx = __webpack_require__(161);
+	var _NoteColorJsx = __webpack_require__(162);
 
 	var _NoteColorJsx2 = _interopRequireDefault(_NoteColorJsx);
 
-	__webpack_require__(166);
+	__webpack_require__(168);
 
 	var NoteEditor = _react2['default'].createClass({
 	    displayName: 'NoteEditor',
@@ -19837,7 +19900,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 161 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19852,7 +19915,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(162);
+	__webpack_require__(163);
 
 	var NoteColor = _react2['default'].createClass({
 	    displayName: 'NoteColor',
@@ -19879,16 +19942,16 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 162 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(163);
+	var content = __webpack_require__(164);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(165)(content, {});
+	var update = __webpack_require__(167)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -19905,21 +19968,21 @@
 	}
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(164)();
+	exports = module.exports = __webpack_require__(165)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".colorize {\r\n    box-sizing: border-box;\r\n    border-radius: 50%;\r\n    height: 26px;\r\n    width: 26px;\r\n    margin: 2px;\r\n    cursor: pointer;\r\n    display: inline-block;\r\n}\r\n.colorize-block {\r\n    display: inline-block;\r\n    width: 200px;\r\n    -webkit-align-self: flex-start;\r\n        -ms-flex-item-align: start;\r\n            align-self: flex-start;\r\n    position: absolute;\r\n}\r\n.select {\r\n    background-image: url(" + __webpack_require__(176) + ");\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    background-size: 16px 16px;\r\n}\r\n", ""]);
+	exports.push([module.id, ".colorize {\r\n    box-sizing: border-box;\r\n    border-radius: 50%;\r\n    height: 26px;\r\n    width: 26px;\r\n    margin: 2px;\r\n    cursor: pointer;\r\n    display: inline-block;\r\n}\r\n.colorize-block {\r\n    display: inline-block;\r\n    width: 200px;\r\n    -ms-flex-item-align: start;\r\n        align-self: flex-start;\r\n    position: absolute;\r\n}\r\n.select {\r\n    background-image: url(" + __webpack_require__(166) + ");\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    background-size: 16px 16px;\r\n}\r\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports) {
 
 	/*
@@ -19975,7 +20038,13 @@
 
 
 /***/ },
-/* 165 */
+/* 166 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnIHdpZHRoPSIxOHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiMwMDAwMDAiIG9wYWNpdHk9IjAuNTQiIHZpZXdCb3g9IjAgMCAxOCAxOCIgaGVpZ2h0PSIxOHB4Ij4NCiAgPHBhdGggZD0ibTAgMGgxOHYxOGgtMTh6IiBmaWxsPSJub25lIi8+DQogIDxwYXRoIGQ9Im02LjYxIDExLjg5bC0zLjExLTMuMTEtMS4wNiAxLjA2IDQuMTcgNC4xNiA4Ljk1LTguOTUtMS4wNi0xLjA1eiIvPg0KPC9zdmc+DQo="
+
+/***/ },
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -20227,16 +20296,16 @@
 
 
 /***/ },
-/* 166 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(167);
+	var content = __webpack_require__(169);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(165)(content, {});
+	var update = __webpack_require__(167)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20253,21 +20322,21 @@
 	}
 
 /***/ },
-/* 167 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(164)();
+	exports = module.exports = __webpack_require__(165)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".note-editor {\r\n    width: 100%;\r\n    max-width: 600px;\r\n    padding: 16px;\r\n    margin: 16px auto;\r\n    background-color: white;\r\n    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);\r\n    border-radius: 2px;\r\n    display: -webkit-box;\r\n    display: -webkit-flex;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n    -webkit-flex-direction: column;\r\n        -ms-flex-direction: column;\r\n            flex-direction: column;\r\n}\r\n\r\n.textarea {\r\n    width: 100%;\r\n    resize: none;\r\n    margin: 5px;\r\n    font-size: 14px;\r\n    border: none;\r\n    font-weight: 300;\r\n}\r\n\r\n.textarea:focus {\r\n    outline: 0;\r\n}\r\n\r\n.add-button {\r\n    -webkit-align-self: flex-end;\r\n        -ms-flex-item-align: end;\r\n            align-self: flex-end;\r\n    width: 100px;\r\n    background-color:#44c767;\r\n    border-radius:28px;\r\n    border:1px solid #18ab29;\r\n    cursor:pointer;\r\n    color:#ffffff;\r\n    font-size:14px;\r\n    padding:8px 8px;\r\n    text-transform: uppercase;\r\n    text-decoration:none;\r\n    text-shadow:0px 1px 0px #2f6627;\r\n}\r\n\r\n.add-button:hover {\r\n    background-color:#5cbf2a;\r\n}\r\n\r\n.add-button:active {\r\n    position:relative;\r\n    top:1px;\r\n}\r\n\r\n.add-button:focus {\r\n    outline: 0;\r\n}", ""]);
+	exports.push([module.id, ".note-editor {\r\n    width: 100%;\r\n    max-width: 600px;\r\n    padding: 16px;\r\n    margin: 16px auto;\r\n    background-color: white;\r\n    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);\r\n    border-radius: 2px;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n        -ms-flex-direction: column;\r\n            flex-direction: column;\r\n}\r\n\r\n.textarea {\r\n    width: 100%;\r\n    resize: none;\r\n    margin: 5px;\r\n    font-size: 14px;\r\n    border: none;\r\n    font-weight: 300;\r\n}\r\n\r\n.textarea:focus {\r\n    outline: 0;\r\n}\r\n\r\n.add-button {\r\n    -ms-flex-item-align: end;\r\n        align-self: flex-end;\r\n    width: 100px;\r\n    background-color:#44c767;\r\n    border-radius:28px;\r\n    border:1px solid #18ab29;\r\n    cursor:pointer;\r\n    color:#ffffff;\r\n    font-size:14px;\r\n    padding:8px 8px;\r\n    text-transform: uppercase;\r\n    text-decoration:none;\r\n    text-shadow:0px 1px 0px #2f6627;\r\n}\r\n\r\n.add-button:hover {\r\n    background-color:#5cbf2a;\r\n}\r\n\r\n.add-button:active {\r\n    position:relative;\r\n    top:1px;\r\n}\r\n\r\n.add-button:focus {\r\n    outline: 0;\r\n}", ""]);
 
 	// exports
 
 
 /***/ },
-/* 168 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20282,11 +20351,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _NoteJsx = __webpack_require__(169);
+	var _NoteJsx = __webpack_require__(171);
 
 	var _NoteJsx2 = _interopRequireDefault(_NoteJsx);
 
-	__webpack_require__(172);
+	__webpack_require__(174);
 
 	var NotesGrid = _react2['default'].createClass({
 	    displayName: 'NotesGrid',
@@ -20332,7 +20401,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 169 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20347,7 +20416,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(170);
+	__webpack_require__(172);
 
 	var Note = _react2['default'].createClass({
 	    displayName: 'Note',
@@ -20372,16 +20441,16 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 170 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(171);
+	var content = __webpack_require__(173);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(165)(content, {});
+	var update = __webpack_require__(167)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20398,10 +20467,10 @@
 	}
 
 /***/ },
-/* 171 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(164)();
+	exports = module.exports = __webpack_require__(165)();
 	// imports
 
 
@@ -20412,16 +20481,16 @@
 
 
 /***/ },
-/* 172 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(173);
+	var content = __webpack_require__(175);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(165)(content, {});
+	var update = __webpack_require__(167)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20438,10 +20507,10 @@
 	}
 
 /***/ },
-/* 173 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(164)();
+	exports = module.exports = __webpack_require__(165)();
 	// imports
 
 
@@ -20452,16 +20521,16 @@
 
 
 /***/ },
-/* 174 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(175);
+	var content = __webpack_require__(177);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(165)(content, {});
+	var update = __webpack_require__(167)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20478,24 +20547,58 @@
 	}
 
 /***/ },
-/* 175 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(164)();
+	exports = module.exports = __webpack_require__(165)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "* {\r\n    box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n    font-family: sans-serif;\r\n    font-weight: 300;\r\n    background-color: #eaeaea;\r\n}\r\n\r\n#mount-point {\r\n    display: -webkit-box;\r\n    display: -webkit-flex;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n    -webkit-flex-direction: column;\r\n        -ms-flex-direction: column;\r\n            flex-direction: column;\r\n    -webkit-box-align: center;\r\n    -webkit-align-items: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\r\n}\r\n\r\n.notes-app {\r\n    max-width: 960px;\r\n    width: 100%;\r\n}\r\n\r\n.app-header {\r\n    text-align: center;\r\n    font-weight: 500;\r\n    color: grey;\r\n    text-shadow: 0px 2px 3px rgba(255,255,255,0.5);\r\n}", ""]);
+	exports.push([module.id, "* {\r\n    box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n    font-family: sans-serif;\r\n    font-weight: 300;\r\n    background-color: #eaeaea;\r\n}\r\n\r\n#mount-point {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n        -ms-flex-direction: column;\r\n            flex-direction: column;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\r\n}\r\n\r\n.notes-app {\r\n    max-width: 960px;\r\n    width: 100%;\r\n}\r\n\r\n.app-header {\r\n    text-align: center;\r\n    font-weight: 500;\r\n    color: grey;\r\n    text-shadow: 0px 2px 3px rgba(255,255,255,0.5);\r\n}", ""]);
 
 	// exports
 
 
 /***/ },
-/* 176 */
-/***/ function(module, exports) {
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE4cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbD0iIzAwMDAwMCIgb3BhY2l0eT0iMC41NCIgdmlld0JveD0iMCAwIDE4IDE4IiBoZWlnaHQ9IjE4cHgiPgogIDxwYXRoIGQ9Im0wIDBoMTh2MThoLTE4eiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Im02LjYxIDExLjg5bC0zLjExLTMuMTEtMS4wNiAxLjA2IDQuMTcgNC4xNiA4Ljk1LTguOTUtMS4wNi0xLjA1eiIvPgo8L3N2Zz4K"
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(179);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(167)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteSearch.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteSearch.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(165)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "", ""]);
+
+	// exports
+
 
 /***/ }
 /******/ ]);
