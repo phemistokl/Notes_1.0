@@ -40,11 +40,11 @@ const NotesApp = React.createClass({
 
     handleNoteSearch: function(event) {
         const searchQuery = event.target.value.toLowerCase();
-        const filteredNotes = this.state.notes.filter(function(note) {
+        const displayedNotes = this.state.notes.filter(function(note) {
             const searchValue = note.text.toLowerCase();
-            return searchValue.indexOf(searchQuery) !== -1;
+            return searchValue.indexOf(searchQuery) !== 1;
         });
-        this.setState({ filteredNotes: filteredNotes });
+        this.setState({ notes: displayedNotes });
     },
 
     render: function() {

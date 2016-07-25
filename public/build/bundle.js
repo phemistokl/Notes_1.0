@@ -19715,15 +19715,15 @@
 
 	var _NoteSearchJsx2 = _interopRequireDefault(_NoteSearchJsx);
 
-	var _NoteEditorJsx = __webpack_require__(161);
+	var _NoteEditorJsx = __webpack_require__(165);
 
 	var _NoteEditorJsx2 = _interopRequireDefault(_NoteEditorJsx);
 
-	var _NotesGridJsx = __webpack_require__(170);
+	var _NotesGridJsx = __webpack_require__(172);
 
 	var _NotesGridJsx2 = _interopRequireDefault(_NotesGridJsx);
 
-	__webpack_require__(176);
+	__webpack_require__(178);
 
 	var NotesApp = _react2['default'].createClass({
 	    displayName: 'NotesApp',
@@ -19761,11 +19761,11 @@
 
 	    handleNoteSearch: function handleNoteSearch(event) {
 	        var searchQuery = event.target.value.toLowerCase();
-	        var filteredNotes = this.state.notes.filter(function (note) {
+	        var displayedNotes = this.state.notes.filter(function (note) {
 	            var searchValue = note.text.toLowerCase();
-	            return searchValue.indexOf(searchQuery) !== -1;
+	            return searchValue.indexOf(searchQuery) !== 1;
 	        });
-	        this.setState({ filteredNotes: filteredNotes });
+	        this.setState({ notes: displayedNotes });
 	    },
 
 	    render: function render() {
@@ -19808,7 +19808,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(178);
+	__webpack_require__(161);
 
 	var NoteSearch = _react2['default'].createClass({
 	  displayName: 'NoteSearch',
@@ -19829,136 +19829,20 @@
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _react = __webpack_require__(147);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _NoteColorJsx = __webpack_require__(162);
-
-	var _NoteColorJsx2 = _interopRequireDefault(_NoteColorJsx);
-
-	__webpack_require__(168);
-
-	var NoteEditor = _react2['default'].createClass({
-	    displayName: 'NoteEditor',
-
-	    getInitialState: function getInitialState() {
-	        return {
-	            text: ''
-	        };
-	    },
-
-	    handleColorChange: function handleColorChange(event) {
-	        this.setState({ color: event.target.style.backgroundColor });
-	    },
-
-	    handleTextChange: function handleTextChange(event) {
-	        this.setState({ text: event.target.value });
-	    },
-
-	    handleNoteAddus: function handleNoteAddus() {
-	        var newNote = {
-	            text: this.state.text,
-	            color: this.state.color,
-	            id: Date.now()
-	        };
-
-	        this.props.onNoteAdd(newNote);
-	        this.setState({ text: '' });
-	    },
-
-	    render: function render() {
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: 'note-editor' },
-	            _react2['default'].createElement('textarea', {
-	                placeholder: 'Enter your note here...',
-	                rows: 5,
-	                className: 'textarea',
-	                value: this.state.text,
-	                onChange: this.handleTextChange
-	            }),
-	            _react2['default'].createElement(_NoteColorJsx2['default'], { onColorAdd: this.handleColorChange }),
-	            _react2['default'].createElement(
-	                'button',
-	                { className: 'add-button', onClick: this.handleNoteAddus },
-	                'Add'
-	            )
-	        );
-	    }
-	});
-
-	exports['default'] = NoteEditor;
-	module.exports = exports['default'];
-
-/***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _react = __webpack_require__(147);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	__webpack_require__(163);
-
-	var NoteColor = _react2['default'].createClass({
-	    displayName: 'NoteColor',
-
-	    render: function render() {
-	        var colorRed = { backgroundColor: "#ff8a80" };
-	        var colorYellow = { backgroundColor: "#ffff8d" };
-	        var colorGray = { backgroundColor: "#cfd8dc" };
-	        var colorBlue = { backgroundColor: "#80d8ff" };
-	        var colorGreen = { backgroundColor: "#ccff90" };
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: 'colorize-block', onClick: this.props.onColorAdd },
-	            _react2['default'].createElement('div', { role: 'button', className: 'btn-red colorize', style: colorRed }),
-	            _react2['default'].createElement('div', { role: 'button', className: 'btn-yellow colorize', style: colorYellow }),
-	            _react2['default'].createElement('div', { role: 'button', className: 'btn-gray colorize', style: colorGray }),
-	            _react2['default'].createElement('div', { role: 'button', className: 'btn-blue colorize', style: colorBlue }),
-	            _react2['default'].createElement('div', { role: 'button', className: 'btn-green colorize', style: colorGreen })
-	        );
-	    }
-	});
-
-	exports['default'] = NoteColor;
-	module.exports = exports['default'];
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(164);
+	var content = __webpack_require__(162);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
+	var update = __webpack_require__(164)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteColor.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteColor.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteSearch.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteSearch.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -19968,21 +19852,21 @@
 	}
 
 /***/ },
-/* 164 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(165)();
+	exports = module.exports = __webpack_require__(163)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".colorize {\r\n    box-sizing: border-box;\r\n    border-radius: 50%;\r\n    height: 26px;\r\n    width: 26px;\r\n    margin: 2px;\r\n    cursor: pointer;\r\n    display: inline-block;\r\n}\r\n.colorize-block {\r\n    display: inline-block;\r\n    width: 200px;\r\n    -ms-flex-item-align: start;\r\n        align-self: flex-start;\r\n    position: absolute;\r\n}\r\n.select {\r\n    background-image: url(" + __webpack_require__(166) + ");\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    background-size: 16px 16px;\r\n}\r\n", ""]);
+	exports.push([module.id, "", ""]);
 
 	// exports
 
 
 /***/ },
-/* 165 */
+/* 163 */
 /***/ function(module, exports) {
 
 	/*
@@ -20038,13 +19922,7 @@
 
 
 /***/ },
-/* 166 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnIHdpZHRoPSIxOHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiMwMDAwMDAiIG9wYWNpdHk9IjAuNTQiIHZpZXdCb3g9IjAgMCAxOCAxOCIgaGVpZ2h0PSIxOHB4Ij4NCiAgPHBhdGggZD0ibTAgMGgxOHYxOGgtMTh6IiBmaWxsPSJub25lIi8+DQogIDxwYXRoIGQ9Im02LjYxIDExLjg5bC0zLjExLTMuMTEtMS4wNiAxLjA2IDQuMTcgNC4xNiA4Ljk1LTguOTUtMS4wNi0xLjA1eiIvPg0KPC9zdmc+DQo="
-
-/***/ },
-/* 167 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -20296,16 +20174,178 @@
 
 
 /***/ },
-/* 168 */
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _NoteColorJsx = __webpack_require__(166);
+
+	var _NoteColorJsx2 = _interopRequireDefault(_NoteColorJsx);
+
+	__webpack_require__(170);
+
+	var NoteEditor = _react2['default'].createClass({
+	    displayName: 'NoteEditor',
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            text: ''
+	        };
+	    },
+
+	    handleColorChange: function handleColorChange(event) {
+	        this.setState({ color: event.target.style.backgroundColor });
+	    },
+
+	    handleTextChange: function handleTextChange(event) {
+	        this.setState({ text: event.target.value });
+	    },
+
+	    handleNoteAddus: function handleNoteAddus() {
+	        var newNote = {
+	            text: this.state.text,
+	            color: this.state.color,
+	            id: Date.now()
+	        };
+
+	        this.props.onNoteAdd(newNote);
+	        this.setState({ text: '' });
+	    },
+
+	    render: function render() {
+	        return _react2['default'].createElement(
+	            'div',
+	            { className: 'note-editor' },
+	            _react2['default'].createElement('textarea', {
+	                placeholder: 'Enter your note here...',
+	                rows: 5,
+	                className: 'textarea',
+	                value: this.state.text,
+	                onChange: this.handleTextChange
+	            }),
+	            _react2['default'].createElement(_NoteColorJsx2['default'], { onColorAdd: this.handleColorChange }),
+	            _react2['default'].createElement(
+	                'button',
+	                { className: 'add-button', onClick: this.handleNoteAddus },
+	                'Add'
+	            )
+	        );
+	    }
+	});
+
+	exports['default'] = NoteEditor;
+	module.exports = exports['default'];
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(147);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	__webpack_require__(167);
+
+	var NoteColor = _react2['default'].createClass({
+	    displayName: 'NoteColor',
+
+	    render: function render() {
+	        var colorRed = { backgroundColor: "#ff8a80" };
+	        var colorYellow = { backgroundColor: "#ffff8d" };
+	        var colorGray = { backgroundColor: "#cfd8dc" };
+	        var colorBlue = { backgroundColor: "#80d8ff" };
+	        var colorGreen = { backgroundColor: "#ccff90" };
+	        return _react2['default'].createElement(
+	            'div',
+	            { className: 'colorize-block', onClick: this.props.onColorAdd },
+	            _react2['default'].createElement('div', { role: 'button', className: 'btn-red colorize', style: colorRed }),
+	            _react2['default'].createElement('div', { role: 'button', className: 'btn-yellow colorize', style: colorYellow }),
+	            _react2['default'].createElement('div', { role: 'button', className: 'btn-gray colorize', style: colorGray }),
+	            _react2['default'].createElement('div', { role: 'button', className: 'btn-blue colorize', style: colorBlue }),
+	            _react2['default'].createElement('div', { role: 'button', className: 'btn-green colorize', style: colorGreen })
+	        );
+	    }
+	});
+
+	exports['default'] = NoteColor;
+	module.exports = exports['default'];
+
+/***/ },
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(169);
+	var content = __webpack_require__(168);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
+	var update = __webpack_require__(164)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteColor.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteColor.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 168 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(163)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".colorize {\r\n    box-sizing: border-box;\r\n    border-radius: 50%;\r\n    height: 26px;\r\n    width: 26px;\r\n    margin: 2px;\r\n    cursor: pointer;\r\n    display: inline-block;\r\n}\r\n.colorize-block {\r\n    display: inline-block;\r\n    width: 200px;\r\n    -ms-flex-item-align: start;\r\n        align-self: flex-start;\r\n    position: absolute;\r\n}\r\n.select {\r\n    background-image: url(" + __webpack_require__(169) + ");\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    background-size: 16px 16px;\r\n}\r\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 169 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8c3ZnIHdpZHRoPSIxOHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiMwMDAwMDAiIG9wYWNpdHk9IjAuNTQiIHZpZXdCb3g9IjAgMCAxOCAxOCIgaGVpZ2h0PSIxOHB4Ij4NCiAgPHBhdGggZD0ibTAgMGgxOHYxOGgtMTh6IiBmaWxsPSJub25lIi8+DQogIDxwYXRoIGQ9Im02LjYxIDExLjg5bC0zLjExLTMuMTEtMS4wNiAxLjA2IDQuMTcgNC4xNiA4Ljk1LTguOTUtMS4wNi0xLjA1eiIvPg0KPC9zdmc+DQo="
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(171);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(164)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20322,10 +20362,10 @@
 	}
 
 /***/ },
-/* 169 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(165)();
+	exports = module.exports = __webpack_require__(163)();
 	// imports
 
 
@@ -20336,7 +20376,7 @@
 
 
 /***/ },
-/* 170 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20351,11 +20391,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _NoteJsx = __webpack_require__(171);
+	var _NoteJsx = __webpack_require__(173);
 
 	var _NoteJsx2 = _interopRequireDefault(_NoteJsx);
 
-	__webpack_require__(174);
+	__webpack_require__(176);
 
 	var NotesGrid = _react2['default'].createClass({
 	    displayName: 'NotesGrid',
@@ -20401,7 +20441,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 171 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20416,7 +20456,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(172);
+	__webpack_require__(174);
 
 	var Note = _react2['default'].createClass({
 	    displayName: 'Note',
@@ -20441,16 +20481,16 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 172 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(173);
+	var content = __webpack_require__(175);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
+	var update = __webpack_require__(164)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20467,10 +20507,10 @@
 	}
 
 /***/ },
-/* 173 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(165)();
+	exports = module.exports = __webpack_require__(163)();
 	// imports
 
 
@@ -20481,16 +20521,16 @@
 
 
 /***/ },
-/* 174 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(175);
+	var content = __webpack_require__(177);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
+	var update = __webpack_require__(164)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20507,10 +20547,10 @@
 	}
 
 /***/ },
-/* 175 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(165)();
+	exports = module.exports = __webpack_require__(163)();
 	// imports
 
 
@@ -20521,16 +20561,16 @@
 
 
 /***/ },
-/* 176 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(177);
+	var content = __webpack_require__(179);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
+	var update = __webpack_require__(164)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20547,55 +20587,15 @@
 	}
 
 /***/ },
-/* 177 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(165)();
+	exports = module.exports = __webpack_require__(163)();
 	// imports
 
 
 	// module
 	exports.push([module.id, "* {\r\n    box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n    font-family: sans-serif;\r\n    font-weight: 300;\r\n    background-color: #eaeaea;\r\n}\r\n\r\n#mount-point {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n        -ms-flex-direction: column;\r\n            flex-direction: column;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\r\n}\r\n\r\n.notes-app {\r\n    max-width: 960px;\r\n    width: 100%;\r\n}\r\n\r\n.app-header {\r\n    text-align: center;\r\n    font-weight: 500;\r\n    color: grey;\r\n    text-shadow: 0px 2px 3px rgba(255,255,255,0.5);\r\n}", ""]);
-
-	// exports
-
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(179);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteSearch.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/autoprefixer-loader/index.js!./NoteSearch.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(165)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "", ""]);
 
 	// exports
 
