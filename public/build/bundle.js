@@ -19763,7 +19763,7 @@
 	        var searchQuery = event.target.value.toLowerCase();
 	        var displayedNotes = this.state.notes.filter(function (note) {
 	            var searchValue = note.text.toLowerCase();
-	            return searchValue.indexOf(searchQuery) !== 1;
+	            return searchValue.indexOf(searchQuery) !== -1;
 	        });
 	        this.setState({ notes: displayedNotes });
 	    },

@@ -42,7 +42,7 @@ const NotesApp = React.createClass({
         const searchQuery = event.target.value.toLowerCase();
         const displayedNotes = this.state.notes.filter(function(note) {
             const searchValue = note.text.toLowerCase();
-            return searchValue.indexOf(searchQuery) !== 1;
+            return searchValue.indexOf(searchQuery) !== -1;
         });
         this.setState({ notes: displayedNotes });
     },
